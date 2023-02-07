@@ -1,0 +1,14 @@
+package com.example.mapper;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
+
+public interface PowerPlannerDataMapper {
+	
+	// 공장 파워플래너 데이터 목록 가져오기
+	ArrayList<HashMap<String, Object>> getPowerPlannerDataList() throws Exception;
+
+}

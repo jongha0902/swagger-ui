@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.AtecDataMapper">
+	
+	<select id="getAtecDataList" resultType="HashMap">
+		<![CDATA[
+			SELECT
+				DATE_FORMAT(W_DT, '%Y-%m-%d %H:%i'),
+				DEVICE_ID,
+				POWER_1,
+				POWER_2,
+				TANK_FLOW_1,
+				TANK_FLOW_2,
+				TANK_PRESURE_1,
+				TANK_PRESURE_2,
+				TANK_TEMP_1,
+				TANK_TEMP_2,
+				OUTDOOR_HUM_1,
+				OUTDOOR_HUM_2,
+				SYS_STATUS_1,
+	 			SYS_STATUS_2,
+	 			INV_OUT_1,
+	 			INV_OUT_2,
+	 			INV_IN_1,
+	 			INV_IN_2
+			FROM
+				LOG_DATA_ATEC
+			WHERE 
+				DATE_FORMAT(W_DT, '%Y-%m-%d %H:%i') >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 HOUR), '%Y-%m-%d %H:%i')
+			ORDER BY 
+				W_DT, DEVICE_ID
+		]]> 
+	</select>
+	
+	<select id="getAtecNowDataList" resultType="HashMap">
+		<![CDATA[
+			SELECT
+				DATE_FORMAT(W_DT, '%Y-%m-%d %H:%i'),
+				DEVICE_ID,
+				POWER_1,
+				POWER_2,
+				TANK_FLOW_1,
+				TANK_FLOW_2,
+				TANK_PRESURE_1,
+				TANK_PRESURE_2,
+				TANK_TEMP_1,
+				TANK_TEMP_2,
+				OUTDOOR_HUM_1,
+				OUTDOOR_HUM_2,
+				SYS_STATUS_1,
+	 			SYS_STATUS_2,
+	 			INV_OUT_1,
+	 			INV_OUT_2,
+	 			INV_IN_1,
+	 			INV_IN_2
+			FROM
+				LOG_DATA_ATEC_NOW
+			WHERE 
+				DATE_FORMAT(W_DT, '%Y-%m-%d %H:%i') >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MINUTE), '%Y-%m-%d %H:%i')
+			ORDER BY 
+				W_DT, DEVICE_ID
+		]]> 
+	</select>
+
+</mapper>

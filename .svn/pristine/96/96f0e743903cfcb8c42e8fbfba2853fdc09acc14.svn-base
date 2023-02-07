@@ -1,0 +1,15 @@
+package com.example.mapper;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public interface AtecDataMapper {
+	
+	// 공장 ATEC 1분 데이터 목록 가져오기
+	ArrayList<HashMap<String, Object>> getAtecDataList() throws Exception;
+
+	// 공장 ATEC 실시간 데이터 목록 가져오기
+	ArrayList<HashMap<String, Object>> getAtecNowDataList() throws Exception;
+
+
+}

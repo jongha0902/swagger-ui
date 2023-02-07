@@ -1,0 +1,20 @@
+package com.example.mapper;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
+
+public interface PlcDataMapper {
+	
+	// 공장 PLC 1분 데이터 목록 가져오기
+	ArrayList<HashMap<String, Object>> getPlcDataList() throws Exception;
+
+	// 공장 PLC 실시간 데이터 목록 가져오기
+	ArrayList<HashMap<String, Object>> getPlcNowDataList();
+
+//		public ArrayList<HashMap<String,Object>> getInvertHourData(@Param("oid")String oid, @Param("start")String start, @Param("end")String end) throws Exception;
+
+
+}

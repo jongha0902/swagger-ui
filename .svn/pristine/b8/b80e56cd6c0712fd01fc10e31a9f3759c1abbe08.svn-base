@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.EssDataMapper">
+	
+	<select id="getEssDataList" resultType="HashMap">
+		<![CDATA[
+			SELECT
+				W_DT,
+				DEVICE_ID,
+				IFNULL(AC_RS_V, 0) AS AC_RS_V,
+				IFNULL(AC_ST_V, 0) AS AC_ST_V,
+				IFNULL(AC_TR_V, 0) AS AC_TR_V,
+				IFNULL(AC_R_A, 0) AS AC_R_A,
+				IFNULL(AC_S_A, 0) AS AC_S_A,
+				IFNULL(AC_T_A, 0) AS AC_T_A,
+				IFNULL(ACTIVE_POWER, 0) AS ACTIVE_POWER,
+				IFNULL(AC_FREQUENCY, 0) AS AC_FREQUENCY,
+				IFNULL(DC_LINK_V, 0) AS DC_LINK_V,
+				IFNULL(DC_V, 0) AS DC_V,
+				IFNULL(DC_A, 0) AS DC_A,
+				IFNULL(DC_POWER, 0) AS DC_POWER,
+				IFNULL(TEMP_1, 0) AS TEMP_1,
+				IFNULL(TEMP_2, 0) AS TEMP_2,
+				IFNULL(DISCHARGE_ACC_KW, 0) AS DISCHARGE_ACC_KW,
+				IFNULL(DISCHARGE_ACC_MW, 0) AS DISCHARGE_ACC_MW,
+				IFNULL(CHARGE_ACC_KW, 0) AS CHARGE_ACC_KW,
+				IFNULL(CHARGE_ACC_MW, 0) AS CHARGE_ACC_MW,
+				IFNULL(DISCHARGE_KW, 0) AS DISCHARGE_KW,
+				IFNULL(CHARGE_KW, 0) AS CHARGE_KW,
+				IFNULL(SOC, 0) AS SOC,
+				IFNULL(DISCHARGE_FEE, 0) AS DISCHARGE_FEE,
+				IFNULL(CHARGE_FEE, 0) AS CHARGE_FEE
+			FROM
+				LOG_1MIN_ESS
+			WHERE 
+				DATE_FORMAT(W_DT, '%Y-%m-%d %H:%i') >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 HOUR), '%Y-%m-%d %H:%i')
+			ORDER BY 
+				W_DT, DEVICE_ID
+		]]> 
+	</select>
+	
+	<select id="getEssNowDataList" resultType="HashMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				LOG_ESS_NOW
+			WHERE 
+				DATE_FORMAT(W_DT, '%Y-%m-%d %H:%i') >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 3 MINUTE), '%Y-%m-%d %H:%i')
+			ORDER BY 
+				W_DT, DEVICE_ID
+		]]> 
+	</select>
+
+</mapper>

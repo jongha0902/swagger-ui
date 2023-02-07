@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.EssDataMapper">
+	
+	<select id="getEssDataList" resultType="HashMap">
+		<![CDATA[
+			SELECT
+				W_DT,
+				DEVICE_ID,
+				AC_RS_V,
+				AC_ST_V,
+				AC_TR_V,
+				AC_R_A,
+				AC_S_A,
+				AC_T_A,
+				ACTIVE_POWER,
+				AC_FREQUENCY,
+				DC_LINK_V,
+				DC_V,
+				DC_A,
+				DC_POWER,
+				TEMP_1,
+				TEMP_2,
+				DISCHARGE_ACC_KW,
+				DISCHARGE_ACC_MW,
+				CHARGE_ACC_KW,
+				CHARGE_ACC_MW,
+				DISCHARGE_KW,
+				CHARGE_KW,
+				SOC
+			FROM
+				LOG_1MIN_ESS
+			WHERE 
+				DATE_FORMAT(W_DT, '%Y-%m-%d %H:%i') >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 HOUR), '%Y-%m-%d %H:%i')
+			ORDER BY 
+				W_DT, DEVICE_ID
+		]]> 
+	</select>
+	
+	<select id="getEssNowDataList" resultType="HashMap">
+		<![CDATA[
+			SELECT
+				W_DT,
+				DEVICE_ID,
+				AC_RS_V,
+				AC_ST_V,
+				AC_TR_V,
+				AC_R_A,
+				AC_S_A,
+				AC_T_A,
+				ACTIVE_POWER,
+				AC_FREQUENCY,
+				DC_LINK_V,
+				DC_V,
+				DC_A,
+				DC_POWER,
+				TEMP_1,
+				TEMP_2,
+				DISCHARGE_ACC_KW,
+				DISCHARGE_ACC_MW,
+				CHARGE_ACC_KW,
+				CHARGE_ACC_MW,
+				SOC
+			FROM
+				LOG_ESS_NOW
+			WHERE 
+				DATE_FORMAT(W_DT, '%Y-%m-%d %H:%i') = DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+			ORDER BY 
+				W_DT, DEVICE_ID
+		]]> 
+	</select>
+
+</mapper>

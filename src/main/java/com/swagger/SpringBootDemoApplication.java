@@ -1,0 +1,93 @@
+package com.swagger;
+
+import static springfox.documentation.builders.PathSelectors.regex;
+
+import java.util.Arrays;
+
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+import com.google.common.base.Predicates;
+
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+
+@SpringBootApplication
+@EnableScheduling
+@EnableSwagger2
+@MapperScan(value = {"com.example"})
+public class SpringBootDemoApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootDemoApplication.class, args);
+	}
+
+    /**
+     * SqlSessionFactory 설정
+     * SQL용 mybatis
+     */
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource)throws Exception{
+        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+            sessionFactory.setDataSource(dataSource);
+
+            Resource[] res = new PathMatchingResourcePatternResolver().getResources("classpath:mappers/*Mapper.xml");
+
+            sessionFactory.setMapperLocations(res);
+
+            return sessionFactory.getObject();
+    }
+
+
+    //스웨거
+    /**
+     *
+     * groupName : 오른쪽 상단의 셀렉트 박스의 그룹 네임(한글X)
+     * paths : 미 지정시 디폴트로 전체 경로 표출
+     * apiInfo : UI 기본 정보 출력 없으면 디폴트 값 출력
+     * @return
+     */
+    @Bean
+    public Docket newsApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("TOC")
+                .apiInfo(apiInfo())
+                .select()
+                .paths(Predicates.not(PathSelectors.regex("/error.*")))
+//                .paths(PathSelectors.ant("/v1/api/**")) // /v1/api/** 인 URL들만 필터링
+                .build();
+
+    }
+
+
+    /**
+     * API 기본 정보 부가 출력 거리
+     * title : 주석 처리 시 표출되지 않음.
+     * description : 소제목
+     * contact : 코멘트
+     * version : 버전
+     * @return
+     */
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("TOC API")
+                .description("공장 통신 API")
+                .build();
+    }
+
+}
